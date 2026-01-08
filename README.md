@@ -4,7 +4,7 @@ API Backend untuk sistem Jaringan Dokumentasi dan Informasi Hukum (JDIH) BPS.
 
 ## Base URL
 ```
-http://localhost:5001/api
+http://localhost:5001/api/v1
 ```
 
 ## Authentication
