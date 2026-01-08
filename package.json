@@ -5,10 +5,12 @@
 	"main": "dist/app.js",
 	"scripts": {
 		"dev": "nodemon",
-		"build": "npx prisma db push && npx prisma generate && tsc",
+		"build": "tsc",
 		"start": "node dist/app.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"seed": "npx tsx prisma/seed.ts"
+		"seed": "npx tsx prisma/seed.ts",
+		"prisma:generate": "prisma generate",
+		"prisma:push": "prisma db push"
 	},
 	"keywords": [],
 	"author": "",
