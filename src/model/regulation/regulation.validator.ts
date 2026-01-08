@@ -1,10 +1,10 @@
-import { EDocumentType } from '@prisma/client';
 import { z } from 'zod';
+import { EDocumentType } from '../../generated/prisma';
 
 export type TRegulationInput = z.infer<typeof regulationSchema>;
 
 export const regulationSchema = z.object({
-	documentType: z.enum(EDocumentType).optional(),
+	documentType: z.enum(Object.values(EDocumentType)).optional(),
 	legalType: z.string().optional(),
 	title: z.string().optional(),
 	abbreviation: z.string().optional(),

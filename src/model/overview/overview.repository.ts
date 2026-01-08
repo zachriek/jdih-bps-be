@@ -1,4 +1,4 @@
-import { EDocumentType } from '@prisma/client';
+import { EDocumentType } from '../../generated/prisma';
 import prisma from '../../lib/prisma';
 
 export const getOverview = async () => {

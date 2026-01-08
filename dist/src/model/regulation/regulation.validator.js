@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.regulationSchema = void 0;
-const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
+const prisma_1 = require("../../generated/prisma");
 exports.regulationSchema = zod_1.z.object({
-    documentType: zod_1.z.enum(client_1.EDocumentType).optional(),
+    documentType: zod_1.z.enum(Object.values(prisma_1.EDocumentType)).optional(),
     legalType: zod_1.z.string().optional(),
     title: zod_1.z.string().optional(),
     abbreviation: zod_1.z.string().optional(),
