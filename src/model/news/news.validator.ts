@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ENewsCategory } from '../../generated/prisma';
+import { ENewsCategory } from '@prisma/client';
 
 export type TNewsInput = z.infer<typeof newsSchema>;
 

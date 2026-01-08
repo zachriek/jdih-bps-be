@@ -1,5 +1,5 @@
-import { EDocumentType } from '../../generated/prisma';
 import prisma from '../../lib/prisma';
+import { EDocumentType } from '@prisma/client';
 
 export const getOverview = async () => {
 	const [totalRegulations, totalAccessCounts, totalNews, totalMonografi, totalArtikel, totalPutusan] = await Promise.all([

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EDocumentType } from '../../generated/prisma';
+import { EDocumentType } from '@prisma/client';
 
 export type TRegulationInput = z.infer<typeof regulationSchema>;
 
