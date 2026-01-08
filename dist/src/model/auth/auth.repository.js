@@ -10,6 +10,7 @@ const select = {
     name: true,
     username: true,
     email: true,
+    picture: true,
     createdAt: true,
 };
 const findUserByEmail = async (email) => await prisma_1.default.user.findUnique({

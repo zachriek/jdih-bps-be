@@ -5,6 +5,7 @@ const select = {
 	name: true,
 	username: true,
 	email: true,
+	picture: true,
 	createdAt: true,
 };
 
