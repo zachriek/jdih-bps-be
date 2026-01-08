@@ -1,0 +1,200 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum EDocumentType {
+  PERATURAN
+  MONOGRAFI
+  ARTIKEL
+  PUTUSAN
+}
+
+enum ENewsCategory {
+  SOSIALISASI
+  PENGUMUMAN
+  WORKSHOP
+  EVALUASI
+  LAINNYA
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name     String
+  username String  @unique
+  email    String  @unique
+  password String
+  picture  String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  news      News[]
+
+  @@map("users")
+}
+
+model Regulation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // =========================
+  // 🔹 Metadata Umum Dokumen
+  // =========================
+
+  documentType EDocumentType? @map("document_type")
+  // Jenis Dokumen Hukum
+
+  legalType String? @map("legal_type")
+  // Jenis Dokumen (Peraturan BPS / Monografi / Artikel / Putusan)
+
+  title String?
+  // Judul Dokumen
+
+  abbreviation String?
+  // Singkatan Jenis / Bentuk Dokumen
+
+  yearPublished Int? @map("year_published")
+  // Tahun Terbit
+
+  language String?
+  // Bahasa
+
+  location String?
+  // Lokasi / Tempat Penyimpanan
+
+  lawField String?
+  // Bidang Hukum
+
+  accessCount Int? @default(0) @map("access_count")
+  // Jumlah Akses Dokumen
+
+  // =========================
+  // 🔹 Atribut Khusus — PERATURAN
+  // =========================
+
+  regulationNumber String? @map("regulation_number")
+  // Nomor Peraturan
+
+  placeIssued String? @map("place_issued")
+  // Tempat Penetapan
+
+  dateIssued DateTime? @map("date_issued")
+  // Tanggal Penetapan
+
+  promulgationDate DateTime? @map("promulgation_date")
+  // Tanggal Pengundangan
+
+  status String?
+  // Status Peraturan
+
+  description String?
+  // Keterangan Status
+
+  governmentAffair String? @map("government_affair")
+  // Urusan Pemerintahan
+
+  signer String?
+  // Penandatangan Peraturan
+
+  // =========================
+  // 🔹 Atribut Khusus — MONOGRAFI HUKUM
+  // =========================
+
+  callNumber String? @map("call_number")
+  // Nomor Panggil
+
+  editionPrint String? @map("edition_print")
+  // Cetakan / Edisi
+
+  physicalDescription String? @map("physical_description")
+  // Deskripsi Fisik
+
+  isbnIssn String? @map("isbn_issn")
+  // ISBN / ISSN
+
+  publisher String? @map("publisher")
+  // Penerbit
+
+  // =========================
+  // 🔹 Atribut Khusus — ARTIKEL HUKUM
+  // =========================
+
+  publishingPlace String? @map("publishing_place")
+  // Tempat Terbit
+
+  source String?
+  // Sumber Artikel
+
+  readingDate DateTime? @map("reading_date")
+  // Tanggal Dibacakan / Dipresentasikan
+
+  // =========================
+  // 🔹 Atribut Khusus — PUTUSAN PENGADILAN
+  // =========================
+
+  decisionNumber String? @map("decision_number")
+  // Nomor Putusan
+
+  courtPlace String? @map("court_place")
+  // Tempat Peradilan
+
+  caseType String? @map("case_type")
+  // Jenis Perkara
+
+  decisionDate DateTime? @map("decision_date")
+  // Tanggal Putusan Dibacakan
+
+  // =========================
+  // 🔹 File Dokumen
+  // =========================
+
+  abstractFileName String? @map("abstract_file_name")
+  // Nama File Abstrak
+
+  abstractFileUrl String? @map("abstract_file_url")
+  // URL / Path File Abstrak
+
+  regulationFileName String? @map("regulation_file_name")
+  // Nama File Dokumen Utama
+
+  regulationFileUrl String? @map("regulation_file_url")
+  // URL / Path File Dokumen
+
+  // =========================
+  // 🔹 Audit Field
+  // =========================
+
+  createdAt DateTime @default(now()) @map("created_at")
+  // Tanggal Dibuat
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+  // Tanggal Diperbarui
+
+  @@map("regulations")
+}
+
+model News {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  title    String
+  content  String
+  author   User           @relation(fields: [authorId], references: [id])
+  authorId String         @map("author_id") @db.ObjectId
+  source   String?
+  category ENewsCategory?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("news")
+}

@@ -1,0 +1,24 @@
+import { Request, Response } from 'express';
+import { errorRes, successRes } from '../../utils/response';
+import { getAuthUserService, loginService } from './auth.service';
+import { AuthRequest } from '../../middleware/auth';
+
+export const loginHandler = async (req: Request, res: Response) => {
+	const { email, password } = req.body;
+	const { user, token, message } = await loginService({ email, password });
+	return successRes({
+		res,
+		message,
+		data: {
+			token,
+			user,
+		},
+		status: !token ? 401 : 200,
+	});
+};
+
+export const getAuthUserHandler = async (req: AuthRequest, res: Response) => {
+	if (!req.user) return errorRes({ res, message: 'User tidak ditemukan', status: 404 });
+	const user = await getAuthUserService(req.user.id);
+	return successRes({ res, data: { user } });
+};
