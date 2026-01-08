@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const validate_1 = require("../../middleware/validate");
+const regulation_validator_1 = require("./regulation.validator");
+const regulation_controller_1 = require("./regulation.controller");
+const validator_1 = require("../../validator");
+const auth_1 = require("../../middleware/auth");
+const router = (0, express_1.Router)();
+router.get('/', regulation_controller_1.getRegulationHandler);
+router.get('/:id', (0, validate_1.validateParams)(validator_1.paramsIdSchema), regulation_controller_1.getRegulationByIdHandler);
+router.patch('/:id/access', (0, validate_1.validateParams)(validator_1.paramsIdSchema), regulation_controller_1.incrementAccessCountHandler);
+router.use(auth_1.requireAuth);
+router.post('/', (0, validate_1.validateBody)(regulation_validator_1.regulationSchema), regulation_controller_1.createRegulationHandler);
+router.put('/:id', (0, validate_1.validateParams)(validator_1.paramsIdSchema), (0, validate_1.validateBody)(regulation_validator_1.regulationSchema), regulation_controller_1.updateRegulationHandler);
+router.delete('/:id', (0, validate_1.validateParams)(validator_1.paramsIdSchema), regulation_controller_1.deleteRegulationHandler);
+exports.default = router;

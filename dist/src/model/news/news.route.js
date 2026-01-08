@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const validate_1 = require("../../middleware/validate");
+const news_validator_1 = require("./news.validator");
+const news_controller_1 = require("./news.controller");
+const validator_1 = require("../../validator");
+const auth_1 = require("../../middleware/auth");
+const router = (0, express_1.Router)();
+router.get('/', news_controller_1.getNewsHandler);
+router.get('/:id', (0, validate_1.validateParams)(validator_1.paramsIdSchema), news_controller_1.getNewsByIdHandler);
+router.get('/author/:authorId', (0, validate_1.validateParams)(validator_1.paramsIdSchema), news_controller_1.getNewsByAuthorIdHandler);
+router.use(auth_1.requireAuth);
+router.post('/', (0, validate_1.validateBody)(news_validator_1.newsSchema), news_controller_1.createNewsHandler);
+router.put('/:id', (0, validate_1.validateParams)(validator_1.paramsIdSchema), (0, validate_1.validateBody)(news_validator_1.newsSchema), news_controller_1.updateNewsHandler);
+router.delete('/:id', (0, validate_1.validateParams)(validator_1.paramsIdSchema), news_controller_1.deleteNewsHandler);
+exports.default = router;
