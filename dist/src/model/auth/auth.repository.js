@@ -26,5 +26,5 @@ const findUserByUsername = async (username) => await prisma_1.default.user.findU
     select,
 });
 exports.findUserByUsername = findUserByUsername;
-const findUserById = async (id) => await prisma_1.default.user.findUnique({ where: { id }, select: { name: true, email: true } });
+const findUserById = async (id) => await prisma_1.default.user.findUnique({ where: { id }, select: { name: true, username: true, email: true, picture: true } });
 exports.findUserById = findUserById;
